@@ -46,17 +46,24 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
+                    <form action="{{ url('admin') }}" method="GET"
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
+
+                            <input type="text" name="search" class="form-control bg-light border-0 small"
+                                placeholder="Cari produk atau kategori..." value="{{ request('search') }}">
+
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+
+                                <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
+
                             </div>
+
                         </div>
+
                     </form>
 
                     <!-- Topbar Navbar -->
@@ -247,180 +254,79 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Daftar Barang</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
 
-                    <!-- Content Row -->
-                    <div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Jumlah Product</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{$totalproduk}}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-box fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Tabel barang</h6>
+                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalTambahBarang">
+                                <i class="fas fa-plus"></i> Tambah Barang
+                            </button>
                         </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Thumbnail</th>
+                                            <th>Kategori</th>
+                                            <th>Produk</th>
+                                            <th>Harga</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($barang as $r)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
 
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Jumlah Jenis</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{$jumlahjenis}}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-tag fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                                <td>
+                                                    <img src="{{ asset('storage/' . $r->thumbnail) }}"
+                                                        alt="{{ $r->produk }}" width="80" class="img-thumbnail">
+                                                </td>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Jumlah Iphone</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{$totaliphone}}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-mobile-alt fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                                <td>{{ $r->kategori }}</td>
+                                                <td>{{ $r->produk }}</td>
+                                                <td>Rp {{ number_format($r->harga, 0, ',', '.') }}</td>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Jumlah
-                                                Android
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                                        {{$totalandroid}}
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-mobile fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                                                <td>
+                                                    <a href="#" class="btn btn-warning btn-sm" data-toggle="modal"
+                                                        data-target="#modalEditBarang{{ $r->id }}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+
+                                                    <form action="{{ route('admin.destroy', $r->id) }}" method="POST"
+                                                        class="d-inline form-delete">
+
+                                                        @csrf
+                                                        @method('DELETE')
+
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="6" class="text-center">
+                                                    Belum ada data.
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
 
                     </div>
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
 
                 </div>
                 <!-- /.container-fluid -->
@@ -478,6 +384,161 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="modalTambahBarang" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+
+            <form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Tambah Barang
+                        </h5>
+
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>Thumbnail</label>
+                            <input type="file" class="form-control" name="thumbnail">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Kategori</label>
+
+                            <select class="form-control" name="kategori" required>
+                                <option value="" selected disabled hidden>
+                                    Pilih Kategori
+                                </option>
+
+                                <option value="iPhone">iPhone</option>
+                                <option value="Android">Android</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nama Produk</label>
+                            <input type="text" class="form-control" name="produk">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Harga</label>
+                            <input type="number" class="form-control" name="harga">
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="submit" class="btn btn-primary">
+                            Simpan
+                        </button>
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Batal
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    @foreach ($barang as $edit)
+
+        <div class="modal fade" id="modalEditBarang{{ $edit->id }}" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+
+                <form action="{{ route('admin.update', $edit->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                Edit Barang
+                            </h5>
+
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label>Thumbnail Saat Ini</label><br>
+
+                                <img src="{{ asset('storage/' . $edit->thumbnail) }}" width="120"
+                                    class="img-thumbnail mb-2">
+
+                                <input type="file" class="form-control" name="thumbnail">
+                                <small class="text-muted">
+                                    Kosongkan jika tidak ingin mengganti gambar.
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Kategori</label>
+
+                                <select class="form-control" name="kategori" required>
+
+                                    <option value="iPhone" {{ $edit->kategori == 'iPhone' ? 'selected' : '' }}>
+                                        iPhone
+                                    </option>
+
+                                    <option value="Android" {{ $edit->kategori == 'Android' ? 'selected' : '' }}>
+                                        Android
+                                    </option>
+
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nama Produk</label>
+
+                                <input type="text" class="form-control" name="produk" value="{{ $edit->produk }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Harga</label>
+
+                                <input type="number" class="form-control" name="harga" value="{{ $edit->harga }}">
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button type="submit" class="btn btn-primary">
+                                Update
+                            </button>
+
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                Batal
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    @endforeach
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('template-admin/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{ asset('template-admin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -494,6 +555,41 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('template-admin/js/demo/chart-area-demo.js')}}"></script>
     <script src="{{ asset('template-admin/js/demo/chart-pie-demo.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if(session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: '{{ session('success') }}'
+            });
+        </script>
+    @endif
+
+    <script>
+        $('.form-delete').submit(function (e) {
+            e.preventDefault();
+
+            const form = this;
+
+            Swal.fire({
+                title: 'Yakin ingin menghapus?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e74a3b',
+                cancelButtonColor: '#858796',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
 
 </body>
 
