@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 
+Route::get('/list-file', function () {
+    return Storage::disk('public')->allFiles();
+});
 
 Route::get('/buat-folder', function () {
     Storage::disk('public')->makeDirectory('produk');
