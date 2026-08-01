@@ -30,6 +30,13 @@ class BarangController extends Controller
 
     public function store(Request $request)
     {
+
+    dd([
+        'hasFile' => $request->hasFile('thumbnail'),
+        'isValid' => $request->file('thumbnail')?->isValid(),
+        'disk' => config('filesystems.default'),
+        'public_root' => storage_path('app/public'),
+    ]);
         $thumbnail = null;
 
         if ($request->hasFile('thumbnail')) {
