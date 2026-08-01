@@ -8,7 +8,15 @@ use App\Models\Barang;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
+Route::get('/cek-storage', function () {
+    $path = storage_path('app/public');
 
+    return [
+        'exists' => File::exists($path),
+        'is_dir' => File::isDirectory($path),
+        'path' => $path,
+    ];
+});
 Route::get('/list-file', function () {
     return Storage::disk('public')->allFiles();
 });
