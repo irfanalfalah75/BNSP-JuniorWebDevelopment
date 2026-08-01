@@ -6,7 +6,18 @@ use App\Http\Controllers\LoginController;
 use App\Models\Barang;
 
 
+use Illuminate\Support\Facades\Storage;
 
+Route::get('/cek-storage', function () {
+
+    Storage::disk('public')->put('tes.txt', 'Halo Railway');
+
+    if (Storage::disk('public')->exists('tes.txt')) {
+        return "BERHASIL";
+    }
+
+    return "GAGAL";
+});
 Route::middleware('guest')->group(function () {
 
     Route::get('/login', [LoginController::class, 'index'])
@@ -40,7 +51,7 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     Route::resource('admin', BarangController::class);
-    
+
 
     Route::post('/logout', [LoginController::class, 'logout'])
         ->name('logout');
