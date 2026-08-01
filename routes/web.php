@@ -5,8 +5,18 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\LoginController;
 use App\Models\Barang;
 
-
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
+Route::get('/cek-link', function () {
+    return [
+        'public_storage_exists' => File::exists(public_path('storage')),
+        'is_symlink' => is_link(public_path('storage')),
+        'target' => @readlink(public_path('storage')),
+        'storage_public_exists' => File::exists(storage_path('app/public')),
+    ];
+});
+
 
 Route::get('/cek-storage', function () {
 
