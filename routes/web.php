@@ -8,6 +8,16 @@ use App\Models\Barang;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
+
+
+Route::get('/buat-folder', function () {
+    Storage::disk('public')->makeDirectory('produk');
+
+    return [
+        'exists' => Storage::disk('public')->exists('produk'),
+        'path' => storage_path('app/public'),
+    ];
+});
 Route::get('/cek-link', function () {
     return [
         'public_storage_exists' => File::exists(public_path('storage')),
